@@ -33,7 +33,7 @@ class TodoRepositoryImpl implements TodoRepository {
 
   @override
   Future<List<TodoEntity>> getTodo() {
-    // TODO: implement getTodo
+
     throw UnimplementedError();
   }
 }
