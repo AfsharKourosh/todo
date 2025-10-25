@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'core/di/injection.dart' as di;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init(); // 🔥 اجرای init قبل از runApp()
+
   runApp(const MyApp());
 }
 
@@ -10,8 +14,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Scaffold(body: Center(child: Text('data'))),
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(child: Text('Todo App - Clean Architecture')),
+      ),
     );
   }
 }
-
