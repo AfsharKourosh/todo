@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'core/di/injection.dart' as di;
+import 'feature/add_task/presentation/bloc/todo_bloc.dart';
+import 'feature/add_task/presentation/bloc/todo_event.dart';
+import 'feature/add_task/presentation/screen/todo_list_page.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await di.init(); // 🔥 اجرای init قبل از runApp()
-
+  await di.init();
   runApp(const MyApp());
 }
 
@@ -13,10 +18,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(child: Text('Todo App - Clean Architecture')),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => TodoBloc()..add(GetTodosEvent()),
+        ),
+      ],
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: TodoListPage(),
       ),
     );
   }
