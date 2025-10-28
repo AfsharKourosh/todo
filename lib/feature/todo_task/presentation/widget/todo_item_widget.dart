@@ -37,7 +37,10 @@ class TodoItemWidget extends StatelessWidget {
         trailing: IconButton(
           icon: const Icon(Icons.delete, color: Colors.redAccent),
           onPressed: () {
-            context.read<TodoBloc>().add(DeleteTodoEvent(todo.id));
+          //   BlocBuilder<TodoBloc>(builder: (context, state) {
+          //
+          // },);
+            // context.read<TodoBloc>().add(DeleteTodoEvent(todo.id));
           },
         ),
       ),

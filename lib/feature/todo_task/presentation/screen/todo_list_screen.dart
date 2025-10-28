@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/feature/todo_task/presentation/bloc/todo_bloc.dart';
+import 'package:todo/feature/todo_task/presentation/screen/add_todo_page.dart';
 
+import '../widget/todo_item_widget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -33,12 +35,24 @@ class _MainScreenState extends State<MainScreen> {
         builder: (context, state) {
           if (state is TodoLoading) {
             return const Center(child: CircularProgressIndicator());
-
           } else if (state is TodoLoaded) {
             final todos = state.todos;
             if (todos.isEmpty) {
               return const Center(child: Text('هیچ کاری اضافه نکردی '));
             }
+
+
+            return  ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: todos.length,
+              itemBuilder: (context, index) {
+                final todo = todos[index];
+                return TodoItemWidget(todo: todo);
+
+
+
+              },
+            );
 
           } else if (state is TodoError) {
             return Center(child: Text(state.message));
@@ -46,35 +60,25 @@ class _MainScreenState extends State<MainScreen> {
           return const SizedBox();
         },
       ),
-            // return ListView.builder(
-            //   padding: const EdgeInsets.all(16),
-            //   itemCount: todos.length,
-            //   itemBuilder: (context, index) {
-            //     final todo = todos[index];
-            //     return TodoItemWidget(todo: todo);
-            //   },
-            // );
 
 
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Colors.blueAccent,
-      //   onPressed: () async {
-      //     final result = await Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //         builder: (_) => BlocProvider.value(
-      //           value: context.read<TodoBloc>(),
-      //           child: const AddTodoPage(),
-      //         ),
-      //       ),
-      //     );
-      //
-      //     if (result == true) {
-      //       context.read<TodoBloc>().add(GetTodosEvent());
-      //     }
-      //   },
-      //   child: const Icon(Icons.add, color: Colors.white),
-      // ),
+
+
+
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueAccent,
+        onPressed: () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddTodoPage()),
+          );
+
+          if (result == true) {
+            context.read<TodoBloc>().add(GetTodosEvent());
+          }
+        },
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
     );
   }
 }

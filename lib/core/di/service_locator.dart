@@ -30,8 +30,5 @@ import '../../feature/todo_task/domain/usecase/update_todo.dart';
     sl.registerLazySingleton(() => AddTodo(sl()));
     sl.registerLazySingleton(() => UpdateTodo(sl()));
     sl.registerLazySingleton(() => DeleteTodo(sl()));
-    //bloc
-    sl.registerLazySingleton<TodoBloc>(() =>
-        TodoBloc(
-            getTodo: sl(), addTodo: sl(), updateTodo: sl(), deleteTodo: sl()),);
+
   }
