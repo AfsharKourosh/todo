@@ -5,18 +5,17 @@ part 'todo_model.g.dart';
 
 @HiveType(typeId: 0)
 class TodoModel extends TodoEntity {
-
-  @HiveField(0)
+  @HiveField(1)
   @override
   final String id;
 
   @HiveField(1)
   @override
-  final String title;
+  final bool isDone;
 
   @HiveField(2)
   @override
-  final bool isDone;
+  final String title;
 
   const TodoModel({required this.id, required this.title, required this.isDone})
     : super(id: id, title: title, isDone: isDone);

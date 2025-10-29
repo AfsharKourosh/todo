@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/feature/todo_task/presentation/screen/edit_todo_screen.dart';
 import '../../domain/entity/todo_entity.dart';
 import '../bloc/todo_bloc.dart';
 
@@ -16,9 +17,7 @@ class TodoItemWidget extends StatelessWidget {
       child: ListTile(
         leading: IconButton(
           icon: Icon(
-            todo.isDone
-                ? Icons.check_circle
-                : Icons.radio_button_unchecked,
+            todo.isDone ? Icons.check_circle : Icons.radio_button_unchecked,
             color: todo.isDone ? Colors.blueAccent : Colors.grey,
           ),
           onPressed: () {
@@ -26,21 +25,34 @@ class TodoItemWidget extends StatelessWidget {
             context.read<TodoBloc>().add(UpdateTodoEvent(updated));
           },
         ),
-        title: Text(
-          todo.title,
-          style: TextStyle(
-            fontSize: 16,
-            decoration:
-            todo.isDone ? TextDecoration.lineThrough : TextDecoration.none,
-          ),
+        title: Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => EditTodoPage(todo: todo),
+                  ),
+                );
+              },
+            ),
+            SizedBox(width: 10.0),
+            Text(
+              todo.title,
+              style: TextStyle(
+                fontSize: 16,
+                decoration: todo.isDone
+                    ? TextDecoration.lineThrough
+                    : TextDecoration.none,
+              ),
+            ),
+          ],
         ),
         trailing: IconButton(
           icon: const Icon(Icons.delete, color: Colors.redAccent),
           onPressed: () {
-          //   BlocBuilder<TodoBloc>(builder: (context, state) {
-          //
-          // },);
-            // context.read<TodoBloc>().add(DeleteTodoEvent(todo.id));
+            context.read<TodoBloc>().add(DeleteTodoEvent(todo.id));
           },
         ),
       ),

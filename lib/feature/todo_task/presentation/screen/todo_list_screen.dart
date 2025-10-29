@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/feature/todo_task/presentation/bloc/todo_bloc.dart';
 import 'package:todo/feature/todo_task/presentation/screen/add_todo_page.dart';
-
 import '../widget/todo_item_widget.dart';
 
 class MainScreen extends StatefulWidget {
@@ -40,20 +39,14 @@ class _MainScreenState extends State<MainScreen> {
             if (todos.isEmpty) {
               return const Center(child: Text('هیچ کاری اضافه نکردی '));
             }
-
-
-            return  ListView.builder(
+            return ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: todos.length,
               itemBuilder: (context, index) {
                 final todo = todos[index];
                 return TodoItemWidget(todo: todo);
-
-
-
               },
             );
-
           } else if (state is TodoError) {
             return Center(child: Text(state.message));
           }
@@ -61,21 +54,17 @@ class _MainScreenState extends State<MainScreen> {
         },
       ),
 
-
-
-
-
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blueAccent,
         onPressed: () async {
-          final result = await Navigator.push(
+           await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => AddTodoPage()),
           );
 
-          if (result == true) {
-            context.read<TodoBloc>().add(GetTodosEvent());
-          }
+          // if (result != null && result is String) {
+          //   // context.read<TodoBloc>().add(AddTodoEvent(result));
+          // }
         },
         child: const Icon(Icons.add, color: Colors.white),
       ),

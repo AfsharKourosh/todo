@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../domain/entity/todo_entity.dart';
 import '../bloc/todo_bloc.dart';
 
-class AddTodoPage extends StatelessWidget {
-  const AddTodoPage({super.key});
-
+class EditTodoPage extends StatelessWidget {
+  const EditTodoPage({super.key, required this.todo});
+  final TodoEntity todo;
   @override
   Widget build(BuildContext context) {
-    final controller = TextEditingController();
+    final controller = TextEditingController(text: todo.title);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -45,14 +46,16 @@ class AddTodoPage extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                final title = controller.text;
-                if (title.isNotEmpty) {
-                  context.read<TodoBloc>().add(AddTodoEvent(title));
-                  Navigator.pop(context, title);
+                final updatedTitle = controller.text;
+                if (updatedTitle.isNotEmpty) {
+                 final updatedTodo=TodoEntity(id: todo.id, title: updatedTitle);
+                 context.read<TodoBloc>().add(UpdateTodoEvent(updatedTodo));
+                 Navigator.pop(context, true);
+
                 }
               },
               child: const Text(
-                'Add',
+                'Save',
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
