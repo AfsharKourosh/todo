@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo/feature/todo_task/presentation/screen/edit_todo_screen.dart';
+import 'package:todo/feature/todo_task/presentation/screen/add_todo_page.dart';
 import '../../domain/entity/todo_entity.dart';
 import '../bloc/todo_bloc.dart';
 
@@ -32,7 +32,7 @@ class TodoItemWidget extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => EditTodoPage(todo: todo),
+                    builder: (context) => AddTodoPage(todo: todo),
                   ),
                 );
               },

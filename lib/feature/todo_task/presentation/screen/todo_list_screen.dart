@@ -57,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blueAccent,
         onPressed: () async {
-           await Navigator.push(
+          await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => AddTodoPage()),
           );

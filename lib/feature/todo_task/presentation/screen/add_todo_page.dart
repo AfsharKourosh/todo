@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/feature/todo_task/domain/entity/todo_entity.dart';
 import '../bloc/todo_bloc.dart';
 
 class AddTodoPage extends StatelessWidget {
-  const AddTodoPage({super.key});
+  final TodoEntity? todo;
+
+  const AddTodoPage({super.key, this.todo});
 
   @override
   Widget build(BuildContext context) {
-    final controller = TextEditingController();
+    final controller = TextEditingController(text: todo?.title ?? '');
+    final isEdit = todo != null;
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
-        title: const Text('Add Todo', style: TextStyle(color: Colors.white)),
+        title: Text(
+          isEdit ? 'Edit Todo' : 'Add Todo',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -46,14 +53,28 @@ class AddTodoPage extends StatelessWidget {
               ),
               onPressed: () {
                 final title = controller.text;
-                if (title.isNotEmpty) {
-                  context.read<TodoBloc>().add(AddTodoEvent(title));
-                  Navigator.pop(context, title);
+
+                if (isEdit) {
+                  if (title.isNotEmpty) {
+                    final updatedTitle = controller.text;
+
+                    final updatedTodo = TodoEntity(
+                      id: todo!.id,
+                      title: updatedTitle,
+                    );
+                    context.read<TodoBloc>().add(UpdateTodoEvent(updatedTodo));
+                    Navigator.pop(context, true);
+                  }
+                } else {
+                  if (title.isNotEmpty) {
+                    context.read<TodoBloc>().add(AddTodoEvent(title));
+                    Navigator.pop(context, title);
+                  }
                 }
               },
-              child: const Text(
-                'Add',
-                style: TextStyle(fontSize: 16, color: Colors.white),
+              child: Text(
+                isEdit ? 'Save' : 'Add',
+                style: const TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
           ],

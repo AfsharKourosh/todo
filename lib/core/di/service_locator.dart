@@ -9,25 +9,23 @@ import '../../feature/todo_task/domain/usecase/delete_todo.dart';
 import '../../feature/todo_task/domain/usecase/get_todo.dart';
 import '../../feature/todo_task/domain/usecase/update_todo.dart';
 
+GetIt sl = GetIt.instance;
 
-  GetIt sl = GetIt.instance;
+Future<void> initDependencies() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(TodoModelAdapter());
+  final todoBox = await Hive.openBox<TodoModel>('todos');
+  sl.registerLazySingleton<Box<TodoModel>>(() => todoBox);
+  //Hive
+  sl.registerLazySingleton<TodoDataSource>(
+    () => (TodoLocalDataSourceImpl(sl<Box<TodoModel>>())),
+  );
 
-  Future<void> initDependencies() async {
-    await Hive.initFlutter();
-    Hive.registerAdapter(TodoModelAdapter());
-    final todoBox = await Hive.openBox<TodoModel>('todos');
-    sl.registerLazySingleton<Box<TodoModel>>(() => todoBox);
-    //Hive
-    sl.registerLazySingleton<TodoDataSource>(
-          () => (TodoLocalDataSourceImpl(sl<Box<TodoModel>>())),
-    );
-
-    //Repository
-    sl.registerLazySingleton<TodoRepository>(() => TodoRepositoryImpl(sl()));
-    //UseCase
-    sl.registerLazySingleton(() => GetTodo(sl()));
-    sl.registerLazySingleton(() => AddTodo(sl()));
-    sl.registerLazySingleton(() => UpdateTodo(sl()));
-    sl.registerLazySingleton(() => DeleteTodo(sl()));
-
-  }
+  //Repository
+  sl.registerLazySingleton<TodoRepository>(() => TodoRepositoryImpl(sl()));
+  //UseCase
+  sl.registerLazySingleton(() => GetTodo(sl()));
+  sl.registerLazySingleton(() => AddTodo(sl()));
+  sl.registerLazySingleton(() => UpdateTodo(sl()));
+  sl.registerLazySingleton(() => DeleteTodo(sl()));
+}
