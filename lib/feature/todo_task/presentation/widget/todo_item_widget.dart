@@ -34,7 +34,9 @@ class TodoItemWidget extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => AddTodoPage(todo: todo),
                   ),
-                );
+                ).then((value) {
+                  
+                },);
               },
             ),
             SizedBox(width: 10.0),

@@ -63,7 +63,7 @@ class AddTodoPage extends StatelessWidget {
                       title: updatedTitle,
                     );
                     context.read<TodoBloc>().add(UpdateTodoEvent(updatedTodo));
-                    Navigator.pop(context, true);
+                    Navigator.pop(context, updatedTodo);
                   }
                 } else {
                   if (title.isNotEmpty) {

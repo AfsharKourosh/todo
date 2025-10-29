@@ -44,9 +44,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
           isDone: false,
         );
         await addTodo(newTodo);
-        final todos = await getTodo(NoParam());
-
-        emit(TodoLoaded(todos));
+       add(GetTodosEvent());
       }
     });
 
